@@ -45,9 +45,13 @@ for (const channel of ['release', 'beta']) {
     process.exit(1)
   }
   nix[channel] = await response.json()
+
+  // Zotero falsely reports 32 bit beta
+  if (channel === 'beta') delete nix[channel]['linux-i686']
+
   console.log('building', channel)
   nix[channel] = Object.entries(nix[channel])
-    .filter(([a, v]) => a.startsWith('linux-') && (channel === 'release' || a !== 'linux-i686'))
+    .filter(([a, v]) => a.startsWith('linux-'))
     .map(([a, v]) => new Release(channel, a, v))
     .map(r => [ r.arch, r ])
   nix[channel] = Object.fromEntries(nix[channel])
