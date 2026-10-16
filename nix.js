@@ -46,9 +46,6 @@ for (const channel of ['release', 'beta']) {
   }
   nix[channel] = await response.json()
 
-  // Zotero falsely reports 32 bit beta
-  if (channel === 'beta') delete nix[channel]['linux-i686']
-
   console.log('building', channel)
   nix[channel] = Object.entries(nix[channel])
     .filter(([a, v]) => a.startsWith('linux-'))

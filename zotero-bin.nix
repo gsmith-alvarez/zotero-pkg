@@ -1,4 +1,4 @@
-{ stdenv, makeDesktopItem, lib, pkgs, fetchurl, makeWrapper, binName ? "zotero", version, url, sha256 }:
+{ stdenv, makeDesktopItem, lib, pkgs, fetchurl, makeWrapper, autoPatchelfHook, binName ? "zotero", version, url, sha256 }:
 
 let
   runtimeDeps = with pkgs; [
@@ -45,13 +45,15 @@ stdenv.mkDerivation {
     inherit url sha256;
   };
 
-  nativeBuildInputs = [ makeWrapper ];
+  nativeBuildInputs = [
+    makeWrapper
+    autoPatchelfHook
+    pkgs.bash
+  ];
   buildInputs = runtimeDeps;
 
   dontBuild = true;
   dontStrip = true;
-  dontPatchELF = true;
-  dontPatchShebangs = true;
 
   installPhase = ''
     runHook preInstall

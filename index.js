@@ -51,9 +51,6 @@ async function main() {
     }
     const versions = await response.json()
 
-    // Zotero falsely reports 32 bit beta
-    if (channel === 'beta') delete versions['linux-i686']
-
     for (let [arch, version] of Object.entries(versions)) {
       if (!arch.startsWith('linux-')) continue
       arch = arch.replace(/^linux-/, '')
