@@ -51,7 +51,6 @@ stdenv.mkDerivation {
   dontBuild = true;
   dontStrip = true;
   dontPatchELF = true;
-  dontPatchShebangs = true;
 
   installPhase = ''
     runHook preInstall
